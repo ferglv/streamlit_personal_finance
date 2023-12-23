@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pandas = "==2.1.4"
+plotly = "==5.18.0"
+pytest = "==7.4.3"
+python-dotenv = "==1.0.0"
+sqlalchemy = "==2.0.23"
+streamlit = "==1.29.0"
+watchdog = "==3.0.0"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
+python_full_version = "3.11.6"
