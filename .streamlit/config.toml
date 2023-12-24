@@ -1,0 +1,17 @@
+# .streamlit/config.toml
+
+[theme]
+# Primary colors
+primaryColor = "#0078D4"  # A strong blue for primary actions and highlights
+
+# Background colors for main content area and sidebar
+backgroundColor = "#FFFFFF"  # White background for a clean look
+secondaryBackgroundColor = "#F0F2F6"  # A light grey for the sidebar
+
+# Text colors
+textColor = "#0A0A0A"  # Dark text for readability
+font = "sans serif"  # A sans serif font for a modern look
+
+[server]
+headless = true
+port = 8501
