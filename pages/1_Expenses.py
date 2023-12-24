@@ -1,9 +1,12 @@
 # pages/1_Expenses.py
-import streamlit as st
+from components.expenses.view import expenses_view
 
 
-def main():
-    st.title("Expenses Page")
+def main() -> None:
+    """
+    Main function to render the expenses view in the Streamlit app.
+    """
+    expenses_view()
 
 
 if __name__ == "__main__":
