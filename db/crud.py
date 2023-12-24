@@ -5,7 +5,7 @@ from sqlalchemy import inspect
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import sqltypes
 
-from base_class import Base
+from db.base_class import Base
 
 ModelType = TypeVar("ModelType", bound=Base)
 
