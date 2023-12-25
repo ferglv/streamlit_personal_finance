@@ -15,3 +15,6 @@ font = "sans serif"  # A sans serif font for a modern look
 [server]
 headless = true
 port = 8501
+
+[client]
+showErrorDetails = true
