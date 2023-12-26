@@ -9,9 +9,11 @@ def get_project_root() -> str:
     current_dir = os.path.abspath(os.path.dirname(__file__))
     while True:
         parent_dir = os.path.dirname(current_dir)
-        if os.path.basename(parent_dir) == '':
-            raise Exception("Project root folder 'streamlit_personal_finance' not found.")
-        if os.path.basename(parent_dir) == 'streamlit_personal_finance':
+        if os.path.basename(parent_dir) == "":
+            raise Exception(
+                "Project root folder 'streamlit_personal_finance' not found."
+            )
+        if os.path.basename(parent_dir) == "streamlit_personal_finance":
             return parent_dir
         current_dir = parent_dir
 
@@ -27,5 +29,9 @@ def db_exists(db_file_name: str) -> bool:
         bool: True if the database file exists, False otherwise.
     """
     project_root_dir = get_project_root()
-    db_files = [f for f in os.listdir(project_root_dir) if f.endswith('.db') and f == db_file_name]
+    db_files = [
+        f
+        for f in os.listdir(project_root_dir)
+        if f.endswith(".db") and f == db_file_name
+    ]
     return bool(db_files)
