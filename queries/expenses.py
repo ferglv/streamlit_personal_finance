@@ -1,3 +1,5 @@
+from typing import Any
+
 from sqlalchemy import desc, exc
 from sqlalchemy.orm import sessionmaker
 
