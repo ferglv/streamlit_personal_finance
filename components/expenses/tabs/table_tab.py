@@ -63,7 +63,10 @@ def render_category_filter(session_factory: SessionLocal) -> List[str]:
     categories_names = query_category.execute_query()
     with st.expander("Categories Filters:"):
         selected_categories = st.multiselect(
-            "Available Categories", options=categories_names, default=categories_names
+            "Available Categories",
+            options=categories_names,
+            default=categories_names,
+            key="selected_categories",
         )
 
     return selected_categories
