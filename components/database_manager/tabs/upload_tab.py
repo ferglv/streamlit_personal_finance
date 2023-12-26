@@ -1,10 +1,10 @@
 # components/database_manager/tabs/upload_tab.py
 import os
+
 import streamlit as st
 
 from components.database_manager.authentication import authenticate_user
-from components.database_manager.utils import db_exists
-from components.database_manager.utils import get_project_root
+from components.database_manager.utils import db_exists, get_project_root
 
 
 def database_manager_upload_tab() -> None:

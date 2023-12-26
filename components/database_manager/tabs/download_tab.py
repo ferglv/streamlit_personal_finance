@@ -5,8 +5,7 @@ from datetime import datetime
 import streamlit as st
 
 from components.database_manager.authentication import authenticate_user
-from components.database_manager.utils import db_exists
-from components.database_manager.utils import get_project_root
+from components.database_manager.utils import db_exists, get_project_root
 
 
 def database_manager_download_tab() -> None:
