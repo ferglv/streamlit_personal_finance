@@ -2,11 +2,14 @@ import os
 from datetime import date
 
 import streamlit as st
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from formatters.formatter import CategoryListFormatter
 from queries.category import QueryCategory
+
+load_dotenv()
 
 
 def keep_app_session() -> None:
