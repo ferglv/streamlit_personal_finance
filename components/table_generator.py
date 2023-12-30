@@ -63,7 +63,7 @@ def render_filters(
     data: pd.DataFrame,
     date_column: str,
     additional_filters: Optional[Dict[str, Callable[[SessionLocal], Any]]] = None,
-) -> Tuple[Dict[str, Any], Tuple[st.columns, st.columns]]:
+) -> Tuple[Dict[str, Any], Tuple[st.columns, st.columns, st.columns]]:
     """
     Renders filters in the Streamlit app and collects their values.
 
@@ -74,16 +74,15 @@ def render_filters(
         additional_filters: Dictionary of additional filter functions, if any.
 
     Returns:
-        A tuple containing a dictionary of filter values and a tuple of Streamlit columns.
+        Tuple of filter values and Streamlit columns (for year, month, and rows per page).
     """
     filters = {}
-
     years = ["All"] + sorted(data[date_column].dt.year.unique(), reverse=True)
     months = ["All"] + list(range(1, 13))
 
-    col1, col2, col3, col4 = st.columns([0.2, 0.3, 0.3, 0.2])
+    col1, col2, col3, col4, col5 = st.columns([0.2, 0.2, 0.2, 0.2, 0.2])
     with col1:
-        selected_year = st.selectbox(
+        filters["year"] = st.selectbox(
             "Select Year",
             years,
             index=0,
@@ -91,7 +90,7 @@ def render_filters(
             key="selected_year",
         )
     with col2:
-        selected_month = st.selectbox(
+        filters["month"] = st.selectbox(
             "Select Month",
             months,
             index=0,
@@ -101,14 +100,11 @@ def render_filters(
             key="selected_month",
         )
 
-    filters["year"] = selected_year
-    filters["month"] = selected_month
-
     if additional_filters:
-        for filter_name, filter_func in additional_filters.items():
-            filters[filter_name] = filter_func(session_factory)
+        for name, function in additional_filters.items():
+            filters[name] = function(session_factory)
 
-    return filters, (col3, col4)
+    return filters, (col3, col4, col5)
 
 
 def apply_filters(
@@ -140,6 +136,7 @@ def display_table(
     table_type: str,
     col3: st.delta_generator.DeltaGenerator,
     col4: st.delta_generator.DeltaGenerator,
+    col5: st.delta_generator.DeltaGenerator,
 ) -> None:
     """
     Displays a table with pagination in the Streamlit app.
@@ -147,18 +144,29 @@ def display_table(
     Args:
         data: Data to display in the table.
         table_type: Type of the table (e.g., 'expenses', 'payroll').
-        col3: Streamlit column for pagination controls.
-        col4: Streamlit column for pagination details.
+        col3: Streamlit column for row by page select box.
+        col4: Streamlit column for pagination controls.
+        col5: Streamlit column for pagination details.
     """
-    page_size = int(st.session_state.get("page_size", 10))
-    total_rows = len(data)
-    num_pages = (total_rows // page_size) + (1 if total_rows % page_size > 0 else 0)
-
+    rows_per_page_options = ["All"] + [5] + list(range(10, 101, 10))
     with col3:
+        rows_per_page = st.selectbox(
+            "Rows Per Page", options=rows_per_page_options, key="rows_per_page"
+        )
+
+    total_rows = len(data)
+    if rows_per_page == "All":
+        num_pages = 1
+        page_size = total_rows
+    else:
+        page_size = rows_per_page
+        num_pages = (total_rows // page_size) + (1 if total_rows % page_size > 0 else 0)
+
+    with col4:
         selected_page = st.number_input(
             "Page", min_value=1, max_value=max(1, num_pages), step=1, value=1
         )
-    with col4:
+    with col5:
         space_height = 35
         st.markdown(
             f"<div style='height: {space_height}px;'></div>", unsafe_allow_html=True
@@ -174,5 +182,5 @@ def display_table(
 
     if table_type == "expenses":
         display_expenses_table(paginated_data)
-    else:
-        st.error(f"Unsupported table type: {table_type}")
+    if table_type == "payroll":
+        display_payroll_table(paginated_data)

@@ -20,6 +20,7 @@ def keep_app_session() -> None:
     current_year, current_month = date.today().year, date.today().month
     st.session_state.setdefault("selected_year", current_year)
     st.session_state.setdefault("selected_month", current_month)
+    st.session_state.setdefault("rows_per_page", 5)
 
     if "selected_categories" not in st.session_state:
         session_factory = session_state_session()
@@ -27,6 +28,9 @@ def keep_app_session() -> None:
         query_category = QueryCategory(session_factory, formatter)
         categories = query_category.execute_query()
         st.session_state["selected_categories"] = categories
+
+    if st.session_state["rows_per_page"]:
+        st.session_state["rows_per_page"] = st.session_state["rows_per_page"]
 
     if st.session_state["selected_year"]:
         st.session_state["selected_year"] = st.session_state["selected_year"]
