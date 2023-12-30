@@ -9,7 +9,7 @@ from backend.xml_processing.xml_parser import parse_xml
 
 def load_xmls(uploaded_files: List[UploadedFile]) -> List[dict]:
     """
-    Processes a list of uploaded XML files, sorts them, parses each file, 
+    Processes a list of uploaded XML files, sorts them, parses each file,
     and displays their details in the Streamlit app.
 
     Args:

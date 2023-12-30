@@ -37,14 +37,14 @@ def expenses_table_tab() -> None:
     query_expenses = QueryExpenses(session_factory, formatter_expenses)
 
     expenses_data = prepare_data(session_factory, query_expenses, ["date"], catalogs)
-    filters, (col3, col4) = render_filters(
+    filters, (col3, col4, col5) = render_filters(
         session_factory,
         expenses_data,
         "date",
         {"category_filter": render_category_filter},
     )
     filtered_data = apply_filters(expenses_data, filters, "date")
-    display_table(filtered_data, "expenses", col3, col4)
+    display_table(filtered_data, "expenses", col3, col4, col5)
     display_pivot_tables(filtered_data)
 
 
